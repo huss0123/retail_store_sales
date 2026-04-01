@@ -23,7 +23,7 @@ with st.sidebar:
 
     page = st.radio(
         "📊 Retail Dashboard",
-        ["🏠 Overview", "📈 Exploratory Analysis", "💡 Insights & Recommendations"]
+        ["🏠 Overview", "📈 Exploratory Analysis", "💡 Findings & Recommendations"]
     )
 
     st.markdown("---")
@@ -197,6 +197,10 @@ elif page == "📈 Exploratory Analysis":
         fig24 = px.bar(top_items_cat, x='Item', y='Quantity', title='Top Selling Item by Category', color='Category')
         st.plotly_chart(fig24)
 
+        st.markdown("### 🛒 Top 10 Selling Items in General")
+        top_items_gen = filtered_df.groupby(['Category', 'Item'])['Quantity'].sum().sort_values(ascending=False).reset_index().head(10)
+        fig25 = px.bar(top_items_gen, x='Item', y='Quantity', color='Category', title='Top Selling Items in General')
+        st.plotly_chart(fig25)
     # =========================
     # ⏱️ Time-Based
     # =========================
@@ -223,7 +227,61 @@ elif page == "📈 Exploratory Analysis":
         fig33 = px.bar(revenue_day, x='day_of_week', y='Total Spent', title='Revenue by Day of Week')
         st.plotly_chart(fig33)
 
-elif page == "💡 Insights & Recommendations":
-    st.title("Insights & Recommendations")
+elif page == "💡 Findings & Recommendations":
+    st.title("Findings & Recommendations")
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("### ✅ Key Findings")
+        st.write("""
+        - The **Butchers** category contributes the highest share of total revenue.
+        ----------------------------------------
+        - Revenue does **not vary** significantly across locations or payment methods.
+        ----------------------------------------
+        - Edible and drinkable categories have higher demand compared to others.
+        <br><br>
+        ----------------------------------------
+        - The most sold item is Beverage 2.
+        <br><br><br>
+        ----------------------------------------
+        - Customer spending is relatively similar, with Customer 24 being the highest spender.
+        ----------------------------------------
+        - Discounts do not significantly impact sales.
+        ----------------------------------------
+        - There is a logical positive relationship between quantity and total spending.
+        ----------------------------------------
+        - January shows a consistent increase in revenue each year, followed by a decline in the next month.
+        <br>
+        ----------------------------------------
+        - Sales increase on Fridays.
+        """,unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("### 🎯 Recommendations")
+        st.write("""
+        - Prioritize **availability** for Butchers products.
+        ----------------------------------------
+        - Focus on **operational efficiency**, not payment optimization.
+        ----------------------------------------
+        - Expand product variety in these categories.
+        - Bundle food + beverage offers to increase basket size.
+        ----------------------------------------
+        - Ensure constant availability (avoid stockouts).
+        - Use it as a traffic driver (e.g., promotions).
+        - Cross-sell with complementary items (e.g., snacks).
+        ----------------------------------------
+        - Target Customer 24 with personalized offers.
+        ----------------------------------------
+        - Reduce unnecessary discounts → protect margins.
+        ----------------------------------------
+        - Highlight bundle deals.
+        ----------------------------------------
+        - Launch major campaigns in January to maximize revenue.
+        - Prepare retention strategies for post-January drop.
+        ----------------------------------------
+        - Run promotions specifically on Fridays.
+        - Increase inventory and staffing for peak demand.
+        - Launch “Friday special” campaigns.
+        """,unsafe_allow_html=True)
 
